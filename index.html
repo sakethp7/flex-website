@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Flex — Don't Carry. Just Flex.</title>
 <link rel="stylesheet" href="dark-theme.css"/>
+<script src="assets/theme.js"></script>
 <style>
 /* ── HERO ── */
 .hero {
-  min-height: 100vh;
   background: var(--bg-void);
   display: flex; align-items: center;
-  padding: 100px 48px 80px;
+  padding: 140px 48px 40px;
   position: relative; overflow: hidden;
 }
 .hero-bg-glow {
@@ -310,7 +310,13 @@
     <li><a href="solutions.html">Solutions</a></li>
     <li><a href="about.html">About</a></li>
   </ul>
-  <a href="solutions.html" class="nav-cta">See how it works</a>
+  <div style="display:flex; align-items:center; margin-left:auto;">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+    <a href="solutions.html" class="nav-cta">See how it works</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -335,34 +341,13 @@
       </div>
     </div>
     <div class="hero-visual" id="hero-visual">
-      <!-- Main card -->
-      <div class="hv-card hv-main" style="animation: card-float 6s ease-in-out infinite;">
-        <div class="hv-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2H3V4zm0 4h14v8a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm5 3a1 1 0 000 2h4a1 1 0 000-2H8z"/></svg></div>
-        <div class="hv-title">Bus Pass — Route 12A</div>
-        <div class="hv-desc">RFID verified · Valid through June 2025</div>
-        <div style="margin-top:14px;">
-          <span class="badge badge-green"><span class="sdot"></span>Active</span>
-        </div>
-      </div>
-      <!-- Stat card -->
-      <div class="hv-card hv-stat" style="animation: card-float 8s ease-in-out infinite 1s;">
-        <div class="hv-label">Present today</div>
-        <div class="hv-value">1,247</div>
-        <div class="hv-sub">of 1,380 students</div>
-        <div style="margin-top:12px;"><span class="badge badge-gold"><span class="sdot"></span>Live</span></div>
-      </div>
-      <!-- Mini card -->
-      <div class="hv-card hv-mini" style="animation: card-float 7s ease-in-out infinite 2s;">
-        <div class="hv-label">Authentication</div>
-        <div class="hv-value" style="font-size:28px;">100%</div>
-        <div class="hv-sub">Zero counterfeit IDs</div>
-      </div>
+      <img src="assets/flex-card.png" alt="Flex ID Card" class="floating-card glow-gold">
     </div>
   </div>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-section">
+<div class="marquee-section fade-in" style="animation-delay: 0.6s;">
   <div class="marquee-track" id="marquee">
     <div class="marquee-item"><span class="dot"></span>Bus Management</div>
     <div class="marquee-item"><span class="dot"></span>Gate Entry</div>
@@ -596,6 +581,10 @@
         <div class="adv-title">Modular deployment</div>
         <div class="adv-desc">Deploy one module or all at once. Each works standalone and integrates seamlessly with the full Flex ecosystem.</div>
       </div>
+      <!-- Free space for the card -->
+      <div style="display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <img src="assets/flex-card.png" alt="Flex ID Card" class="floating-card glow-gold" style="max-width: 320px;">
+      </div>
     </div>
   </div>
 </section>
@@ -662,6 +651,45 @@
   to   { opacity:1; transform:translateY(0); }
 }
 .fade-in { animation: fade-up 0.8s var(--ease) both; }
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--silver);
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all var(--t) var(--ease);
+}
+.theme-toggle:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,168,67,0.05); }
+.theme-toggle svg { width: 18px; height: 18px; }
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="dark"] .moon-icon { display: none; }
+:root:not([data-theme]) .moon-icon { display: none; }
+
+/* Floating Card Inline styling */
+.floating-card {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 16px;
+  animation: float-super 7s ease-in-out infinite;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  border: 1px solid var(--border-gold);
+}
+[data-theme="light"] .floating-card {
+  box-shadow: 0 30px 60px rgba(181,138,45,0.25);
+}
+@keyframes float-super {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(3deg); }
+}
+
+@media (max-width: 900px) {
+  .hero-visual { display: block; position: relative; height: auto; margin-top: 40px; text-align: center; }
+  .floating-card { max-width: 300px; }
+}
 </style>
 
 <script>
@@ -731,9 +759,10 @@ const tb = document.querySelector('.trustbar');
 if (tb) trustObserver.observe(tb);
 
 // Nav active on scroll
+const nav = document.querySelector('.nav');
 window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.07)';
+  const isScrolled = window.scrollY > 20;
+  nav.style.borderBottomColor = isScrolled ? 'var(--border)' : 'transparent';
 });
 </script>
 </body>
