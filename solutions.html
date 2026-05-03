@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Solutions — Flex</title>
+<link rel="stylesheet" href="dark-theme.css"/>
+<style>
+.page-hero { padding: 140px 48px 96px; background: var(--bg-void); position: relative; overflow: hidden; }
+.page-hero-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 70% 50%, black 10%, transparent 70%); }
+.page-hero-glow { position: absolute; top: -20%; left: -5%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 65%); pointer-events: none; }
+.page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.page-hero-title { font-family: var(--font-display); font-size: clamp(44px,6vw,80px); font-weight: 900; letter-spacing: -3px; line-height: 1.05; color: var(--white); margin-bottom: 22px; }
+.page-hero-sub { font-size: 18px; color: var(--silver-dim); line-height: 1.7; max-width: 540px; }
+
+/* BEFORE/AFTER CARDS */
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 64px; }
+.ba-card { background: var(--bg-card); padding: 36px; transition: background 200ms var(--ease); }
+.ba-card:hover { background: var(--bg-elevated); }
+.ba-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.ba-icon { width: 40px; height: 40px; border-radius: 2px; border: 1px solid var(--border-gold); background: rgba(212,168,67,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ba-icon svg { width: 18px; height: 18px; color: var(--gold); }
+.ba-card-title { font-size: 15px; font-weight: 600; color: var(--white); }
+.ba-card-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--silver-dim); }
+.ba-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ba-block { padding: 16px; border-radius: 2px; }
+.ba-block.before { background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.15); }
+.ba-block.after { background: rgba(212,168,67,0.07); border: 1px solid rgba(212,168,67,0.2); }
+.ba-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.ba-block.before .ba-label { color: #E74C3C; }
+.ba-block.after .ba-label { color: var(--gold); }
+.ba-text { font-size: 12px; line-height: 1.6; }
+.ba-block.before .ba-text { color: rgba(231,76,60,0.8); }
+.ba-block.after .ba-text { color: rgba(212,168,67,0.85); }
+
+/* PROCESS */
+.process-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 64px; align-items: start; }
+.process-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+.process-line { position: absolute; left: 27px; top: 28px; bottom: 28px; width: 1px; background: linear-gradient(180deg, var(--gold), rgba(212,168,67,0.1)); }
+.process-step { display: flex; gap: 24px; padding: 0 0 36px; position: relative; z-index: 1; }
+.process-step:last-child { padding-bottom: 0; }
+.p-dot { width: 56px; height: 56px; border-radius: 2px; border: 1px solid var(--border-gold); background: rgba(212,168,67,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--gold); }
+.p-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 22px 24px; flex: 1; transition: border-color 200ms; }
+.p-content:hover { border-color: var(--border-gold); }
+.p-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.p-desc { font-size: 13px; color: var(--silver-dim); line-height: 1.65; }
+.p-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+.p-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; padding: 3px 8px; border: 1px solid var(--border-gold); color: var(--gold); }
+
+/* TIMELINE PANEL */
+.timeline-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 36px; border-top: 2px solid var(--gold); }
+.tp-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.tp-sub { font-size: 13px; color: var(--silver-dim); margin-bottom: 32px; }
+.tp-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.tp-row:last-child { margin-bottom: 0; }
+.tp-week { font-family: var(--font-mono); font-size: 11px; color: var(--silver-dim); width: 60px; flex-shrink: 0; letter-spacing: 0.5px; }
+.tp-bar-wrap { flex: 1; }
+.tp-bar-label { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.tp-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 0; overflow: hidden; }
+.tp-bar-fill { height: 100%; background: var(--gold); border-radius: 0; }
+.tp-bar-fill.green { background: #2ECC71; }
+.tp-live { margin-top: 24px; padding: 16px; border: 1px solid rgba(212,168,67,0.25); background: rgba(212,168,67,0.06); }
+.tp-live-title { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+.tp-live-sub { font-size: 12px; color: var(--silver-dim); }
+
+/* ROI */
+.roi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-top: 64px; }
+.roi-card { background: var(--bg-card); padding: 40px 28px; text-align: center; transition: background 200ms var(--ease); position: relative; overflow: hidden; }
+.roi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease); }
+.roi-card:hover { background: var(--bg-elevated); }
+.roi-card:hover::before { transform: scaleX(1); }
+.roi-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; letter-spacing: -2px; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+.roi-label { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+.roi-sub { font-size: 12px; color: var(--silver-dim); line-height: 1.55; }
+
+/* COMPARE TABLE */
+.compare-wrap { margin-top: 64px; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+.compare-header { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--bg-void); border-bottom: 1px solid var(--border); }
+.ch-cell { padding: 16px 24px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+.ch-cell:first-child { color: var(--muted); }
+.ch-cell.old { color: var(--silver-dim); }
+.ch-cell.flex-col { color: var(--gold); }
+.compare-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+.compare-row:last-child { border-bottom: none; }
+.compare-row:nth-child(even) { background: rgba(255,255,255,0.02); }
+.cc { padding: 14px 24px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.cc.feat { font-weight: 600; color: var(--silver); }
+.cc.bad { color: rgba(231,76,60,0.75); }
+.cc.good { color: rgba(212,168,67,0.9); font-weight: 600; }
+.ci { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ci.yes { background: rgba(212,168,67,0.15); border: 1px solid rgba(212,168,67,0.3); }
+.ci.no  { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.2); }
+.ci svg { width: 8px; height: 8px; }
+
+/* CTA */
+.cta-band { background: var(--bg-void); border-top: 1px solid var(--border); padding: 96px 48px; text-align: center; }
+.cta-title { font-family: var(--font-display); font-size: clamp(36px,5vw,60px); font-weight: 900; letter-spacing: -2px; color: var(--white); margin-bottom: 20px; }
+.cta-title .gold { color: var(--gold); }
+.cta-sub { font-size: 17px; color: var(--silver-dim); margin-bottom: 40px; line-height: 1.7; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .ba-grid { grid-template-columns: 1fr; }
+  .process-layout { grid-template-columns: 1fr; }
+  .roi-grid { grid-template-columns: 1fr 1fr; }
+  .page-hero { padding: 120px 24px 72px; }
+}
+@media (max-width: 560px) {
+  .roi-grid { grid-template-columns: 1fr 1fr; }
+  .ba-split { grid-template-columns: 1fr; }
+  .compare-header, .compare-row { grid-template-columns: 1.5fr 0.8fr 0.8fr; }
+  .cc { padding: 12px 14px; font-size: 12px; }
+  .page-hero { padding: 100px 20px 64px; }
+  .cta-band { padding: 64px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Flex<span class="dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="solutions.html" class="active">Solutions</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <a href="about.html#contact" class="nav-cta">Get in touch</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <span class="eyebrow">How Flex works</span>
+    <span class="gold-line"></span>
+    <h1 class="page-hero-title">The campus of 2025<br/>runs on Flex.</h1>
+    <p class="page-hero-sub">Every friction point across your institution — transformed. See the before and after, the deployment process, and the measurable impact.</p>
+  </div>
+</div>
+
+<!-- BEFORE / AFTER -->
+<section class="section s-base" id="security">
+  <div class="section-inner">
+    <span class="eyebrow">Before &amp; After</span>
+    <span class="gold-line"></span>
+    <h2 class="section-title">What changes when<br/>you deploy Flex.</h2>
+    <div class="ba-grid reveal">
+
+      <div class="ba-card">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm4 11a1 1 0 102 0 1 1 0 00-2 0zm6 0a1 1 0 102 0 1 1 0 00-2 0zM5 5h10v6H5V5z"/></svg></div>
+          <div><div class="ba-card-title">Bus boarding</div><div class="ba-card-tag">Daily touchpoint</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Conductor manually checks paper pass. Long queues. Forged passes undetected.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">Student taps ID. Verified in 100ms. Forged passes physically impossible.</div></div>
+        </div>
+      </div>
+
+      <div class="ba-card">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg></div>
+          <div><div class="ba-card-title">Campus gate entry</div><div class="ba-card-tag">Security critical</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Guard visually checks ID. Easy to forge. No audit trail. Bottlenecks at peak hours.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">RFID terminal grants access in milliseconds. Full movement log. Unauthorized entry flagged instantly.</div></div>
+        </div>
+      </div>
+
+      <div class="ba-card" id="operations">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg></div>
+          <div><div class="ba-card-title">Classroom attendance</div><div class="ba-card-tag">Every class</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Faculty calls roll. 8–10 minutes wasted. Proxy attendance common. Manual registers lost.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">Students tap in at the door. Attendance marked instantly. Proxy impossible. Shortage alerts automated.</div></div>
+        </div>
+      </div>
+
+      <div class="ba-card" id="students">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg></div>
+          <div><div class="ba-card-title">Campus payments</div><div class="ba-card-tag">Daily transactions</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Students carry cash. Canteen queues. Lost money. No spending audit for parents or admin.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">One ID tap pays for everything. Zero cash. Full transaction history for students and administrators.</div></div>
+        </div>
+      </div>
+
+      <div class="ba-card">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg></div>
+          <div><div class="ba-card-title">Hostel access</div><div class="ba-card-tag">24/7 security</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Physical keys lost or duplicated. Warden manually logs check-ins. Breaches unrecorded.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">RFID replaces keys. Every entry logged. Late-return alerts sent automatically to wardens.</div></div>
+        </div>
+      </div>
+
+      <div class="ba-card">
+        <div class="ba-card-header">
+          <div class="ba-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div>
+          <div><div class="ba-card-title">Mess hall</div><div class="ba-card-tag">3× daily</div></div>
+        </div>
+        <div class="ba-split">
+          <div class="ba-block before"><div class="ba-label">Before</div><div class="ba-text">Paper coupons or headcount. Unauthorized access. Over-catering wastes food and budget daily.</div></div>
+          <div class="ba-block after"><div class="ba-label">With Flex</div><div class="ba-text">Tap to enter. Exact meal counts in real time. Waste reduced. Meal plans automatically enforced.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEPLOYMENT PROCESS -->
+<section class="section s-void">
+  <div class="section-inner">
+    <span class="eyebrow">Deployment</span>
+    <span class="gold-line"></span>
+    <h2 class="section-title">From decision to live<br/>in 4 steps.</h2>
+    <p class="section-sub">Flex handles hardware, software, installation, and training. Your team stays focused on education.</p>
+    <div class="process-layout">
+      <div class="process-steps reveal">
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="p-dot">1</div>
+          <div class="p-content">
+            <div class="p-title">Needs assessment</div>
+            <div class="p-desc">We map your campus layout, existing systems, and pain points. You choose which Flex modules to deploy — one, several, or the full suite.</div>
+            <div class="p-tags"><span class="p-tag">Site survey</span><span class="p-tag">Module selection</span></div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="p-dot">2</div>
+          <div class="p-content">
+            <div class="p-title">Hardware installation</div>
+            <div class="p-desc">Our team installs RFID readers at gates, classrooms, bus stops, and wherever you need them. Cards issued to all students — drop-in for existing IDs.</div>
+            <div class="p-tags"><span class="p-tag">Reader installation</span><span class="p-tag">Card issuance</span></div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="p-dot">3</div>
+          <div class="p-content">
+            <div class="p-title">Platform setup &amp; onboarding</div>
+            <div class="p-desc">The Flex dashboard is configured for your institution — departments, routes, blocks, and roles. Staff trained in one session.</div>
+            <div class="p-tags"><span class="p-tag">Dashboard config</span><span class="p-tag">Staff training</span></div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="p-dot">4</div>
+          <div class="p-content">
+            <div class="p-title">Go live + ongoing support</div>
+            <div class="p-desc">Flip the switch. Real-time monitoring begins immediately. We stay on-call for issues and push feature updates continuously.</div>
+            <div class="p-tags"><span class="p-tag">Live monitoring</span><span class="p-tag">Ongoing support</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-panel reveal reveal-delay-2">
+        <div class="tp-title">Deployment timeline</div>
+        <div class="tp-sub">Typical mid-sized institution</div>
+        <div class="tp-row">
+          <div class="tp-week">Week 1</div>
+          <div class="tp-bar-wrap">
+            <div class="tp-bar-label">Assessment &amp; planning</div>
+            <div class="tp-bar"><div class="tp-bar-fill" style="width:30%;"></div></div>
+          </div>
+        </div>
+        <div class="tp-row">
+          <div class="tp-week">Week 2–3</div>
+          <div class="tp-bar-wrap">
+            <div class="tp-bar-label">Hardware installation</div>
+            <div class="tp-bar"><div class="tp-bar-fill" style="width:65%;"></div></div>
+          </div>
+        </div>
+        <div class="tp-row">
+          <div class="tp-week">Week 4</div>
+          <div class="tp-bar-wrap">
+            <div class="tp-bar-label">Onboarding &amp; training</div>
+            <div class="tp-bar"><div class="tp-bar-fill" style="width:80%;"></div></div>
+          </div>
+        </div>
+        <div class="tp-row">
+          <div class="tp-week">Week 5</div>
+          <div class="tp-bar-wrap">
+            <div class="tp-bar-label" style="color:#2ECC71;">Go live</div>
+            <div class="tp-bar"><div class="tp-bar-fill green" style="width:100%;"></div></div>
+          </div>
+        </div>
+        <div class="tp-live">
+          <div class="tp-live-title">Full deployment in ~5 weeks</div>
+          <div class="tp-live-sub">Including hardware, training, and go-live. Minimal disruption to campus operations.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section class="section s-raised">
+  <div class="section-inner">
+    <span class="eyebrow">Impact</span>
+    <span class="gold-line"></span>
+    <h2 class="section-title">The numbers<br/>that matter.</h2>
+    <div class="roi-grid reveal">
+      <div class="roi-card"><div class="roi-num">100%</div><div class="roi-label">ID authentication</div><div class="roi-sub">Every student ID cryptographically verified. Zero counterfeit passes possible.</div></div>
+      <div class="roi-card"><div class="roi-num">~9 min</div><div class="roi-label">Saved per class</div><div class="roi-sub">Automated attendance vs traditional roll-call. Every minute recovered for teaching.</div></div>
+      <div class="roi-card"><div class="roi-num">&lt;100ms</div><div class="roi-label">Entry verification</div><div class="roi-sub">RFID read-and-verify vs 10–30 second manual ID checks at each gate.</div></div>
+      <div class="roi-card"><div class="roi-num">8+</div><div class="roi-label">Systems unified</div><div class="roi-sub">Bus, gate, attendance, mess, hostel, gym, events, payments — one card does it all.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section s-base">
+  <div class="section-inner">
+    <span class="eyebrow">Comparison</span>
+    <span class="gold-line"></span>
+    <h2 class="section-title">Old system vs Flex<br/>at a glance.</h2>
+    <div class="compare-wrap reveal">
+      <div class="compare-header">
+        <div class="ch-cell">Feature</div>
+        <div class="ch-cell old">Traditional</div>
+        <div class="ch-cell flex-col">Flex</div>
+      </div>
+      <div class="compare-row"><div class="cc feat">Counterfeit ID prevention</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Not possible</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>100% cryptographic</div></div>
+      <div class="compare-row"><div class="cc feat">Attendance marking</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Manual, 8–10 min</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>Automatic, &lt;1 sec</div></div>
+      <div class="compare-row"><div class="cc feat">Gate access verification</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Visual, 10–30 sec</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>RFID, under 100ms</div></div>
+      <div class="compare-row"><div class="cc feat">Real-time admin dashboard</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>End-of-day reports only</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>Live across all modules</div></div>
+      <div class="compare-row"><div class="cc feat">Cashless payments</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Cash only</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>RFID tap-to-pay</div></div>
+      <div class="compare-row"><div class="cc feat">Movement audit trail</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Not available</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>Full timestamped logs</div></div>
+      <div class="compare-row"><div class="cc feat">Single card for all systems</div><div class="cc bad"><div class="ci no"><svg viewBox="0 0 8 8" fill="none"><path d="M2 2l4 4M6 2l-4 4" stroke="#E74C3C" stroke-width="1.2"/></svg></div>Separate cards per system</div><div class="cc good"><div class="ci yes"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" color="#D4A843"/></svg></div>One ID, all modules</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2 class="cta-title">Ready to modernize<br/>your <span class="gold">campus?</span></h2>
+  <p class="cta-sub">Talk to the Flex team about deploying RFID across your institution.</p>
+  <div class="cta-btns">
+    <a href="about.html#contact" class="btn-gold">Contact us</a>
+    <a href="products.html" class="btn-ghost">View all products</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div><div class="footer-logo">Flex<span>.</span></div><div class="footer-tagline">Don't Carry. Just Flex.</div><div class="footer-desc">Smart campus solutions powered by RFID — hardware and software for modern educational institutions.</div></div>
+      <div class="footer-col"><div class="footer-col-title">Products</div><a href="products.html#bus">Bus Management</a><a href="products.html#gate">Gate Entry</a><a href="products.html#attendance">Attendance</a><a href="products.html#hostel">Hostel</a><a href="products.html#payments">Payments</a></div>
+      <div class="footer-col"><div class="footer-col-title">Solutions</div><a href="#security">Campus Security</a><a href="#operations">Operations</a><a href="#students">Student Experience</a></div>
+      <div class="footer-col"><div class="footer-col-title">Company</div><a href="about.html">About Flex</a><a href="about.html#team">Team</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 Flex. All rights reserved.</span><span>Smart Campus Platform</span></div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+document.querySelectorAll('.ba-card, .roi-card, .p-content').forEach((el,i) => { el.style.transitionDelay = `${i*0.06}s`; });
+</script>
+</body>
+</html>
