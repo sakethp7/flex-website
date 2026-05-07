@@ -1,475 +1,1128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Products — Flex</title>
-<link rel="stylesheet" href="dark-theme.css"/>
-<script src="assets/theme.js"></script>
-<script src="assets/theme.js"></script>
-<style>
-/* PAGE HERO */
-.page-hero {
-  padding: 120px 48px 40px;
-  background: var(--bg-void);
-  position: relative; overflow: hidden;
-}
-.page-hero-grid {
-  position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse at 30% 50%, black 10%, transparent 70%);
-}
-.page-hero-glow {
-  position: absolute; top: -20%; right: -5%; width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 65%);
-  pointer-events: none;
-}
-.page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
-.page-hero-title { font-family: var(--font-display); font-size: clamp(44px,6vw,80px); font-weight: 900; letter-spacing: -3px; line-height: 1.05; color: var(--white); margin-bottom: 22px; }
-.page-hero-sub { font-size: 18px; color: var(--silver-dim); line-height: 1.7; max-width: 540px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products — Flex</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="dark-theme.css" />
+  <script src="assets/theme.js"></script>
+  <style>
+    /* PAGE HERO */
+    .page-hero {
+      padding: 120px 48px 40px;
+      background: var(--bg-void);
+      position: relative;
+      overflow: hidden;
+    }
 
-/* STICKY PRODUCT NAV */
-.prod-nav {
-  background: var(--bg-raised); border-bottom: 1px solid var(--border);
-  padding: 0 48px; position: sticky; top: 64px; z-index: 100;
-  overflow-x: auto; scrollbar-width: none;
-}
-.prod-nav::-webkit-scrollbar { display: none; }
-.prod-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0; width: max-content; }
-.pnav-link {
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--silver-dim); text-decoration: none; padding: 16px 20px; white-space: nowrap;
-  border-bottom: 2px solid transparent; transition: all 200ms var(--ease);
-}
-.pnav-link:hover { color: var(--white); text-decoration: none; }
-.pnav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .page-hero-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at 30% 50%, black 10%, transparent 70%);
+    }
 
-/* PRODUCT BLOCK */
-.product-block {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 72px;
-}
-.product-block.flip { direction: rtl; }
-.product-block.flip > * { direction: ltr; }
+    .page-hero-glow {
+      position: absolute;
+      top: -20%;
+      right: -5%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 168, 67, 0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-.pb-badge {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-bottom: 20px;
-}
-.pb-badge-icon {
-  width: 32px; height: 32px; border-radius: 2px;
-  border: 1px solid var(--border-gold);
-  background: rgba(212,168,67,0.08);
-  display: flex; align-items: center; justify-content: center;
-}
-.pb-badge-icon svg { width: 15px; height: 15px; color: var(--gold); }
-.pb-badge-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
 
-.pb-title { font-family: var(--font-display); font-size: clamp(28px,3vw,44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: var(--white); margin-bottom: 18px; }
-.pb-desc { font-size: 15px; color: var(--silver-dim); line-height: 1.75; margin-bottom: 28px; }
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 22px;
+    }
 
-.feature-list { display: flex; flex-direction: column; gap: 0; }
-.feature-item {
-  display: flex; align-items: flex-start; gap: 12px; padding: 12px 0;
-  border-bottom: 1px solid var(--border); font-size: 14px; color: var(--silver-dim); line-height: 1.5;
-}
-.feature-item:last-child { border-bottom: none; }
-.fcheck {
-  width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
-  border: 1px solid var(--gold); border-radius: 2px;
-  display: flex; align-items: center; justify-content: center;
-}
-.fcheck svg { width: 10px; height: 10px; color: var(--gold); }
+    .page-hero-sub {
+      font-size: 18px;
+      color: var(--silver-dim);
+      line-height: 1.7;
+      max-width: 540px;
+    }
 
-/* PRODUCT VISUAL PANEL */
-.pv-panel {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 2px; padding: 32px;
-  border-left: 2px solid var(--gold);
-}
-.pv-header {
-  display: flex; align-items: center; gap: 12px;
-  padding-bottom: 18px; margin-bottom: 18px;
-  border-bottom: 1px solid var(--border);
-}
-.pv-header-icon {
-  width: 36px; height: 36px; border-radius: 2px;
-  background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.2);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.pv-header-icon svg { width: 16px; height: 16px; color: var(--gold); }
-.pv-title { font-size: 14px; font-weight: 600; color: var(--white); }
-.pv-sub { font-size: 12px; color: var(--silver-dim); }
-.pv-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
-}
-.pv-row:last-child { border-bottom: none; }
-.pv-row-label { color: var(--silver-dim); }
-.pv-row-value { font-weight: 600; color: var(--white); font-family: var(--font-mono); font-size: 12px; }
-.pv-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 0; margin-top: 6px; overflow: hidden; }
-.pv-bar-fill { height: 100%; background: var(--gold); border-radius: 0; }
+    /* STICKY PRODUCT NAV */
+    .prod-nav {
+      background: var(--bg-raised);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      position: sticky;
+      top: 64px;
+      z-index: 100;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
 
-/* SECTION BG alternates */
-.s-void { background: var(--bg-void); }
-.s-base { background: var(--bg-base); }
-.s-raised { background: var(--bg-raised); }
+    .prod-nav::-webkit-scrollbar {
+      display: none;
+    }
 
-/* HARDWARE */
-.hw-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 64px; background: var(--border); }
-.hw-card {
-  background: var(--bg-card); padding: 36px 28px;
-  transition: background var(--t) var(--ease);
-  position: relative; overflow: hidden;
-}
-.hw-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--gold); transform: scaleX(0); transform-origin: left;
-  transition: transform 300ms var(--ease);
-}
-.hw-card:hover { background: var(--bg-elevated); }
-.hw-card:hover::after { transform: scaleX(1); }
-.hw-icon {
-  width: 52px; height: 52px; border-radius: 2px; margin-bottom: 22px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-}
-.hw-icon svg { width: 24px; height: 24px; color: var(--gold); }
-.hw-name { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
-.hw-desc { font-size: 13px; color: var(--silver-dim); line-height: 1.65; margin-bottom: 18px; }
-.hw-specs { display: flex; gap: 6px; flex-wrap: wrap; }
-.hw-spec { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; padding: 3px 8px; border: 1px solid var(--border); color: var(--silver-dim); }
+    .prod-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      width: max-content;
+    }
 
-/* CTA strip */
-.cta-strip {
-  background: var(--gold); padding: 72px 48px; text-align: center;
-}
-.cta-strip h2 { font-family: var(--font-display); font-size: clamp(28px,4vw,48px); font-weight: 900; letter-spacing: -1.5px; color: var(--bg-void); margin-bottom: 14px; }
-.cta-strip p { font-size: 16px; color: rgba(0,0,0,0.6); margin-bottom: 36px; line-height: 1.6; max-width: 480px; margin-left: auto; margin-right: auto; }
-.btn-dark { display: inline-block; background: var(--bg-void); color: var(--gold); font-size: 14px; font-weight: 700; padding: 14px 36px; border-radius: 4px; border: none; text-decoration: none; transition: all 200ms var(--ease); letter-spacing: 0.02em; }
-.btn-dark:hover { transform: translateY(-2px); color: var(--gold); text-decoration: none; background: var(--bg-raised); }
+    .pnav-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      text-decoration: none;
+      padding: 16px 20px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 200ms var(--ease);
+    }
 
-.section-divider { border: none; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+    .pnav-link:hover {
+      color: var(--white);
+      text-decoration: none;
+    }
 
-@media (max-width: 900px) {
-  .product-block { grid-template-columns: 1fr; gap: 40px; }
-  .product-block.flip { direction: ltr; }
-  .hw-grid { grid-template-columns: 1fr 1fr; }
-  .page-hero { padding: 120px 24px 72px; }
-  .prod-nav { padding: 0 24px; }
-}
-@media (max-width: 560px) {
-  .hw-grid { grid-template-columns: 1fr; }
-  .cta-strip { padding: 56px 20px; }
-  .page-hero { padding: 100px 20px 64px; }
-}
-</style>
+    .pnav-link.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* PRODUCT BLOCK */
+    .product-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 72px;
+    }
+
+    .product-block.flip {
+      direction: rtl;
+    }
+
+    .product-block.flip>* {
+      direction: ltr;
+    }
+
+    .pb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pb-badge-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 2px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 168, 67, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pb-badge-icon svg {
+      width: 15px;
+      height: 15px;
+      color: var(--gold);
+    }
+
+    .pb-badge-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .pb-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .pb-desc {
+      font-size: 15px;
+      color: var(--silver-dim);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--silver-dim);
+      line-height: 1.5;
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .fcheck {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fcheck svg {
+      width: 10px;
+      height: 10px;
+      color: var(--gold);
+    }
+
+    /* PRODUCT VISUAL PANEL */
+    .pv-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px;
+      border-left: 2px solid var(--gold);
+    }
+
+    .pv-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pv-header-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 2px;
+      background: rgba(212, 168, 67, 0.1);
+      border: 1px solid rgba(212, 168, 67, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pv-header-icon svg {
+      width: 16px;
+      height: 16px;
+      color: var(--gold);
+    }
+
+    .pv-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .pv-sub {
+      font-size: 12px;
+      color: var(--silver-dim);
+    }
+
+    .pv-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .pv-row:last-child {
+      border-bottom: none;
+    }
+
+    .pv-row-label {
+      color: var(--silver-dim);
+    }
+
+    .pv-row-value {
+      font-weight: 600;
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .pv-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 0;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .pv-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 0;
+    }
+
+    /* SECTION BG alternates */
+    .s-void {
+      background: var(--bg-void);
+    }
+
+    .s-base {
+      background: var(--bg-base);
+    }
+
+    .s-raised {
+      background: var(--bg-raised);
+    }
+
+    /* HARDWARE */
+    .hw-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 64px;
+      background: var(--border);
+    }
+
+    .hw-card {
+      background: var(--bg-card);
+      padding: 36px 28px;
+      transition: background var(--t) var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hw-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 300ms var(--ease);
+    }
+
+    .hw-card:hover {
+      background: var(--bg-elevated);
+    }
+
+    .hw-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .hw-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 2px;
+      margin-bottom: 22px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hw-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--gold);
+    }
+
+    .hw-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .hw-desc {
+      font-size: 13px;
+      color: var(--silver-dim);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    .hw-specs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .hw-spec {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      color: var(--silver-dim);
+    }
+
+    /* CTA strip */
+    .cta-strip {
+      background: var(--gold);
+      padding: 72px 48px;
+      text-align: center;
+    }
+
+    .cta-strip h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      color: var(--bg-void);
+      margin-bottom: 14px;
+    }
+
+    .cta-strip p {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.6);
+      margin-bottom: 36px;
+      line-height: 1.6;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-dark {
+      display: inline-block;
+      background: var(--bg-void);
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 4px;
+      border: none;
+      text-decoration: none;
+      transition: all 200ms var(--ease);
+      letter-spacing: 0.02em;
+    }
+
+    .btn-dark:hover {
+      transform: translateY(-2px);
+      color: var(--gold);
+      text-decoration: none;
+      background: var(--bg-raised);
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      .product-block {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .product-block.flip {
+        direction: ltr;
+      }
+
+      .hw-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .page-hero {
+        padding: 120px 24px 72px;
+      }
+
+      .prod-nav {
+        padding: 0 24px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hw-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-strip {
+        padding: 56px 20px;
+      }
+
+      .page-hero {
+        padding: 100px 20px 64px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="nav">
-  <a href="index.html" class="nav-logo">Flex<span class="dot">.</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="products.html" class="active">Products</a></li>
-    <li><a href="solutions.html">Solutions</a></li>
-    <li><a href="about.html">About</a></li>
-  </ul>
-  <div style="display:flex; align-items:center; margin-left:auto;">
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </button>
-    <a href="about.html#contact" class="nav-cta">Get in touch</a>
-  </div>
-</nav>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Flex<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; margin-left:auto;">
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a href="about.html#contact" class="nav-cta">Contact us</a>
+    </div>
+  </nav>
 
-<div class="page-hero">
-  <div class="page-hero-grid"></div>
-  <div class="page-hero-glow"></div>
-  <div class="page-hero-inner">
-    <span class="eyebrow">Hardware + Software</span>
-    <span class="gold-line"></span>
-    <h1 class="page-hero-title">Every module.<br/>One platform.</h1>
-    <p class="page-hero-sub">Eight campus systems built on RFID — each works standalone, and all integrate with the Flex dashboard.</p>
-  </div>
-</div>
-
-<div class="prod-nav">
-  <div class="prod-nav-inner">
-    <a href="#bus" class="pnav-link active">Bus</a>
-    <a href="#gate" class="pnav-link">Gate Entry</a>
-    <a href="#attendance" class="pnav-link">Attendance</a>
-    <a href="#mess" class="pnav-link">Mess</a>
-    <a href="#hostel" class="pnav-link">Hostel</a>
-    <a href="#payments" class="pnav-link">Payments</a>
-    <a href="#gym" class="pnav-link">Gym</a>
-    <a href="#events" class="pnav-link">Events</a>
-    <a href="#hardware" class="pnav-link">Hardware</a>
-  </div>
-</div>
-
-<!-- BUS -->
-<section class="section s-void" id="bus">
-  <div class="section-inner">
-    <div class="product-block reveal">
-      <div>
-        <div class="pb-badge">
-          <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm4 11a1 1 0 102 0 1 1 0 00-2 0zm6 0a1 1 0 102 0 1 1 0 00-2 0zM5 5h10v6H5V5z"/></svg></div>
-          <span class="pb-badge-text">Bus Management System</span>
-        </div>
-        <h2 class="pb-title">Verify every boarding.<br/>Track every fee.</h2>
-        <p class="pb-desc">Forged bus passes cause revenue loss and bottlenecks. Flex replaces manual checking with instant RFID tap-in at the bus door.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>RFID tap-in at every boarding point — under 100ms</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Real-time capacity tracking per route</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Automatic fee-due alerts to administrators</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Counterfeit passes — permanently eliminated</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Daily ridership analytics and reports</div>
-        </div>
-      </div>
-      <div class="pv-panel">
-        <div class="pv-header">
-          <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm4 11a1 1 0 102 0 1 1 0 00-2 0zm6 0a1 1 0 102 0 1 1 0 00-2 0zM5 5h10v6H5V5z"/></svg></div>
-          <div><div class="pv-title">Bus Routes — Live</div><div class="pv-sub">Updated 2 min ago</div></div>
-          <span class="badge badge-green" style="margin-left:auto;"><span class="sdot"></span>Live</span>
-        </div>
-        <div class="pv-row"><span class="pv-row-label">Route 12A — City Center</span><span class="pv-row-value">42 / 50</span></div>
-        <div class="pv-bar" style="margin-bottom:10px;"><div class="pv-bar-fill" style="width:84%;"></div></div>
-        <div class="pv-row"><span class="pv-row-label">Route 7B — North Campus</span><span class="pv-row-value">28 / 50</span></div>
-        <div class="pv-bar" style="margin-bottom:10px;"><div class="pv-bar-fill" style="width:56%; background:#2ECC71;"></div></div>
-        <div class="pv-row"><span class="pv-row-label">Route 3 — South Gate</span><span class="pv-row-value">49 / 50</span></div>
-        <div class="pv-bar" style="margin-bottom:16px;"><div class="pv-bar-fill" style="width:98%; background:#E74C3C;"></div></div>
-        <div class="pv-row"><span class="pv-row-label">Fee-due alerts today</span><span class="pv-row-value">14 students</span></div>
-        <div class="pv-row"><span class="pv-row-label">Counterfeit attempts</span><span class="pv-row-value" style="color:#2ECC71;">0</span></div>
-      </div>
+  <div class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-glow"></div>
+    <div class="page-hero-inner">
+      <span class="eyebrow">Hardware + Software</span>
+      <span class="gold-line"></span>
+      <h1 class="page-hero-title">Every module.<br />One platform.</h1>
+      <p class="page-hero-sub">8+ campus systems built on RFID — each works standalone, and all integrate with the Flex
+        dashboard.</p>
     </div>
   </div>
-</section>
 
-<hr class="section-divider"/>
-
-<!-- GATE ENTRY -->
-<section class="section s-base" id="gate">
-  <div class="section-inner">
-    <div class="product-block flip reveal">
-      <div>
-        <div class="pb-badge">
-          <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg></div>
-          <span class="pb-badge-text">Campus Gate Entry</span>
-        </div>
-        <h2 class="pb-title">Controlled access.<br/>Zero unauthorized entry.</h2>
-        <p class="pb-desc">Visual ID checks create bottlenecks and can't catch forged cards. Flex installs RFID readers at every gate — verified in milliseconds, every entry logged.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Instant entry/exit logging for all students and staff</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Movement tracking across multiple campus gates</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Real-time unauthorized access alerts</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Gate pass approvals managed from the dashboard</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Full timestamped audit trail</div>
-        </div>
-      </div>
-      <div class="pv-panel">
-        <div class="pv-header">
-          <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg></div>
-          <div><div class="pv-title">Gate Entry Log</div><div class="pv-sub">Main Gate · Today</div></div>
-          <span class="badge badge-green" style="margin-left:auto;"><span class="sdot"></span>Live</span>
-        </div>
-        <div class="pv-row"><span class="pv-row-label">09:14 — Roll 2341</span><span class="badge badge-green">Cleared</span></div>
-        <div class="pv-row"><span class="pv-row-label">09:13 — Roll 1892</span><span class="badge badge-green">Cleared</span></div>
-        <div class="pv-row"><span class="pv-row-label">09:12 — Unknown ID</span><span class="badge badge-red">Denied</span></div>
-        <div class="pv-row"><span class="pv-row-label">09:11 — Roll 0047</span><span class="badge badge-green">Cleared</span></div>
-        <div class="pv-row" style="margin-top:8px;"><span class="pv-row-label">On-campus now</span><span class="pv-row-value">1,247</span></div>
-        <div class="pv-row"><span class="pv-row-label">Denied attempts today</span><span class="pv-row-value" style="color:#E74C3C;">3</span></div>
-      </div>
+  <div class="prod-nav">
+    <div class="prod-nav-inner">
+      <a href="#bus" class="pnav-link active">Bus</a>
+      <a href="#gate" class="pnav-link">Gate Entry</a>
+      <a href="#attendance" class="pnav-link">Attendance</a>
+      <a href="#mess" class="pnav-link">Mess</a>
+      <a href="#hostel" class="pnav-link">Hostel</a>
+      <a href="#library" class="pnav-link">Library</a>
+      <a href="#payments" class="pnav-link">Payments</a>
+      <a href="#gym" class="pnav-link">Gym</a>
+      <a href="#events" class="pnav-link">Events</a>
+      <a href="#hardware" class="pnav-link">Hardware</a>
     </div>
   </div>
-</section>
 
-<hr class="section-divider"/>
-
-<!-- ATTENDANCE -->
-<section class="section s-void" id="attendance">
-  <div class="section-inner">
-    <div class="product-block reveal">
-      <div>
-        <div class="pb-badge">
-          <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg></div>
-          <span class="pb-badge-text">Attendance System</span>
+  <!-- BUS -->
+  <section class="section s-void" id="bus">
+    <div class="section-inner">
+      <div class="product-block reveal">
+        <div>
+          <div class="pb-badge">
+            <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3 6a3 3 0 013-3h8a3 3 0 013 3v7a2 2 0 01-2 2v1a1 1 0 11-2 0v-1H7v1a1 1 0 11-2 0v-1a2 2 0 01-2-2V6zm2 0v3h10V6c0-.55-.45-1-1-1H6c-.55 0-1 .45-1 1zm1 5a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <span class="pb-badge-text">Bus Management System</span>
+          </div>
+          <h2 class="pb-title">Verify every boarding.<br />Track every fee.</h2>
+          <p class="pb-desc">Forged bus passes cause revenue loss and bottlenecks. Flex replaces manual checking with
+            instant RFID tap-in at the bus door.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>RFID tap-in at every boarding point — under 100ms
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Real-time capacity tracking per route
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Automatic fee-due alerts to administrators
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Counterfeit passes — permanently eliminated
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Daily ridership analytics and reports
+            </div>
+          </div>
         </div>
-        <h2 class="pb-title">Automated attendance.<br/>Zero manual marking.</h2>
-        <p class="pb-desc">Roll-call wastes 8–10 minutes every class. Flex marks attendance the moment a student walks in — accurate, instant, and impossible to proxy.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Automatic marking on classroom entry</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Real-time dashboards for faculty and admin</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Proxy attendance physically impossible</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Automated shortage alerts to students and parents</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>End-of-term reports in one click</div>
-        </div>
-      </div>
-      <div class="pv-panel">
-        <div class="pv-header">
-          <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg></div>
-          <div><div class="pv-title">Attendance — Mon 14 Apr</div><div class="pv-sub">IT-C · Period 3</div></div>
-          <span class="badge badge-gold" style="margin-left:auto;">Live</span>
-        </div>
-        <div class="pv-row"><span class="pv-row-label">Present</span><span class="pv-row-value">54 / 60</span></div>
-        <div class="pv-bar" style="margin-bottom:10px;"><div class="pv-bar-fill" style="width:90%;"></div></div>
-        <div class="pv-row"><span class="pv-row-label">Late arrivals</span><span class="pv-row-value" style="color:var(--gold);">3</span></div>
-        <div class="pv-row"><span class="pv-row-label">Absent</span><span class="pv-row-value" style="color:#E74C3C;">3</span></div>
-        <div class="pv-row"><span class="pv-row-label">Below 75% threshold</span><span class="pv-row-value" style="color:#E74C3C;">7 students</span></div>
-        <div class="pv-row"><span class="pv-row-label">Time saved vs roll-call</span><span class="pv-row-value" style="color:#2ECC71;">~9 min</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider"/>
-
-<!-- MESS + HOSTEL -->
-<section class="section s-base" id="mess">
-  <div class="section-inner">
-    <span class="eyebrow">Mess &amp; Hostel</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">Residential campus life,<br/>without the paperwork.</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); margin-top:56px;" id="hostel">
-      <div class="pv-panel" style="border-radius:0; border:none; border-left:2px solid var(--gold);">
-        <div class="pv-header">
-          <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div>
-          <div><div class="pv-title">Mess Management</div><div class="pv-sub">Dinner · Today</div></div>
-        </div>
-        <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:20px;">Track meals served, reduce waste, and prevent unauthorized access via RFID tap-in at the mess entrance.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Per-meal consumption tracking</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Food waste analytics and forecasting</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Meal plan management and billing</div>
-        </div>
-        <div class="pv-row" style="margin-top:16px;"><span class="pv-row-label">Served tonight</span><span class="pv-row-value">832 / 940</span></div>
-      </div>
-      <div class="pv-panel" style="border-radius:0; border:none; border-left:2px solid var(--gold);">
-        <div class="pv-header">
-          <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg></div>
-          <div><div class="pv-title">Hostel Management</div><div class="pv-sub">Block A &amp; B</div></div>
-        </div>
-        <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:20px;">RFID room access, automated check-in/out, and inventory management for hostel administrators.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>RFID room key replacement</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Automated late-night curfew alerts</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Room assignment and inventory tracking</div>
-        </div>
-        <div class="pv-row" style="margin-top:16px;"><span class="pv-row-label">Checked in tonight</span><span class="pv-row-value">218 / 240</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider"/>
-
-<!-- PAYMENTS + GYM + EVENTS -->
-<section class="section s-void" id="payments">
-  <div class="section-inner">
-    <span class="eyebrow">Payments · Gym · Events</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">The cashless,<br/>paperless campus.</h2>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); margin-top:56px;" id="gym">
-      <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);">
-        <div class="pv-header" style="margin-bottom:14px;"><div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg></div><div><div class="pv-title">Payments</div></div></div>
-        <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">Cashless campus transactions — canteen, stationery, events — with a single RFID tap.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Fast, secure cashless transactions</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Wallet top-up and spend history</div>
-        </div>
-      </div>
-      <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);">
-        <div class="pv-header" style="margin-bottom:14px;"><div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg></div><div><div class="pv-title">Gym Management</div></div></div>
-        <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">Member check-in via RFID. Equipment usage tracking. Capacity management and instant alerts.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>RFID check-in — no manual registers</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Usage analytics per equipment</div>
-        </div>
-      </div>
-      <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);" id="events">
-        <div class="pv-header" style="margin-bottom:14px;"><div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div><div><div class="pv-title">Club Events</div></div></div>
-        <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">RFID event check-in — no paper tickets. Automated registration, attendee tracking, multi-event management.</p>
-        <div class="feature-list">
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Tap-in replaces all paper tickets</div>
-          <div class="feature-item"><div class="fcheck"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Real-time attendee count and reports</div>
+        <div class="pv-panel">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3 6a3 3 0 013-3h8a3 3 0 013 3v7a2 2 0 01-2 2v1a1 1 0 11-2 0v-1H7v1a1 1 0 11-2 0v-1a2 2 0 01-2-2V6zm2 0v3h10V6c0-.55-.45-1-1-1H6c-.55 0-1 .45-1 1zm1 5a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Bus Routes — Live</div>
+              <div class="pv-sub">Updated 2 min ago</div>
+            </div>
+            <span class="badge badge-green" style="margin-left:auto;"><span class="sdot"></span>Live</span>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Route 12A — City Center</span><span class="pv-row-value">42 /
+              50</span></div>
+          <div class="pv-bar" style="margin-bottom:10px;">
+            <div class="pv-bar-fill" style="width:84%;"></div>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Route 7B — North Campus</span><span class="pv-row-value">28 /
+              50</span></div>
+          <div class="pv-bar" style="margin-bottom:10px;">
+            <div class="pv-bar-fill" style="width:56%; background:#2ECC71;"></div>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Route 3 — South Gate</span><span class="pv-row-value">49 /
+              50</span></div>
+          <div class="pv-bar" style="margin-bottom:16px;">
+            <div class="pv-bar-fill" style="width:98%; background:#E74C3C;"></div>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Fee-due alerts today</span><span class="pv-row-value">14
+              students</span></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- HARDWARE -->
-<section class="section s-base" id="hardware">
-  <div class="section-inner">
-    <span class="eyebrow">Hardware</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">The readers behind<br/>every tap.</h2>
-    <p class="section-sub">Purpose-built RFID hardware ships with each software module. Plug-and-play installation, built for campus scale.</p>
-    <div class="hw-grid reveal">
-      <div class="hw-card">
-        <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2H3V4zm0 4h14v8a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm5 3a1 1 0 000 2h4a1 1 0 000-2H8z"/></svg></div>
-        <div class="hw-name">RFID Student ID Card</div>
-        <div class="hw-desc">Standard PVC card with embedded passive RFID chip. Unique cryptographic ID, impossible to clone. Drop-in for existing student IDs.</div>
-        <div class="hw-specs"><span class="hw-spec">ISO 14443</span><span class="hw-spec">13.56 MHz</span><span class="hw-spec">Passive NFC</span></div>
-      </div>
-      <div class="hw-card">
-        <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"/></svg></div>
-        <div class="hw-name">Desktop RFID Reader</div>
-        <div class="hw-desc">Compact unit for classrooms, reception, and office check-in. USB-powered, instant response, connects directly to the Flex platform.</div>
-        <div class="hw-specs"><span class="hw-spec">USB powered</span><span class="hw-spec">&lt;100ms read</span><span class="hw-spec">Plug and play</span></div>
-      </div>
-      <div class="hw-card">
-        <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg></div>
-        <div class="hw-name">Gate RFID Terminal</div>
-        <div class="hw-desc">Ruggedized outdoor-rated terminal for campus gates and entrances. Weather-resistant, supports turnstile or barrier integration.</div>
-        <div class="hw-specs"><span class="hw-spec">IP65 rated</span><span class="hw-spec">Outdoor ready</span><span class="hw-spec">Barrier integration</span></div>
+  <hr class="section-divider" />
+
+  <!-- GATE ENTRY -->
+  <section class="section s-base" id="gate">
+    <div class="section-inner">
+      <div class="product-block flip reveal">
+        <div>
+          <div class="pb-badge">
+            <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M3 3a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 11-2 0V3zm10 0a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 11-2 0V3zM6 6h8v2H6V6zm0 4h8v2H6v-2z" />
+              </svg></div>
+            <span class="pb-badge-text">Campus Gate Entry</span>
+          </div>
+          <h2 class="pb-title">Controlled access.<br />Zero unauthorized entry.</h2>
+          <p class="pb-desc">Visual ID checks create bottlenecks and can't catch forged cards. Flex installs RFID
+            readers at every gate — verified in milliseconds, every entry logged.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Instant entry/exit logging for all students and staff
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Movement tracking across multiple campus gates
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Real-time unauthorized access alerts
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Gate pass approvals managed from the dashboard
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Full timestamped audit trail
+            </div>
+          </div>
+        </div>
+        <div class="pv-panel">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M3 3a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 11-2 0V3zm10 0a1 1 0 011-1h1a1 1 0 011 1v14a1 1 0 11-2 0V3zM6 6h8v2H6V6zm0 4h8v2H6v-2z" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Gate Entry Log</div>
+              <div class="pv-sub">Main Gate · Today</div>
+            </div>
+            <span class="badge badge-green" style="margin-left:auto;"><span class="sdot"></span>Live</span>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">09:14 — Roll 2341</span><span
+              class="badge badge-green">Cleared</span></div>
+          <div class="pv-row"><span class="pv-row-label">09:13 — Roll 1892</span><span
+              class="badge badge-green">Cleared</span></div>
+          <div class="pv-row"><span class="pv-row-label">09:12 — Unknown ID</span><span
+              class="badge badge-red">Denied</span></div>
+          <div class="pv-row"><span class="pv-row-label">09:11 — Roll 0047</span><span
+              class="badge badge-green">Cleared</span></div>
+          <div class="pv-row" style="margin-top:8px;"><span class="pv-row-label">On-campus now</span><span
+              class="pv-row-value">1,247</span></div>
+          <div class="pv-row"><span class="pv-row-label">Denied attempts today</span><span class="pv-row-value"
+              style="color:#E74C3C;">3</span></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CTA -->
-<div class="cta-strip">
-  <h2>Ready to deploy Flex?</h2>
-  <p>Talk to us about which modules fit your institution. We handle installation, onboarding, and training.</p>
-  <a href="about.html#contact" class="btn-dark">Get in touch</a>
-</div>
+  <hr class="section-divider" />
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">Flex<span>.</span></div>
-        <div class="footer-tagline">Don't Carry. Just Flex.</div>
-        <div class="footer-desc">Smart campus solutions powered by RFID — hardware and software for modern educational institutions.</div>
+  <!-- ATTENDANCE -->
+  <section class="section s-void" id="attendance">
+    <div class="section-inner">
+      <div class="product-block reveal">
+        <div>
+          <div class="pb-badge">
+            <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-1 1H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2h-2a1 1 0 00-1-1H9zm-.5 9.5l-2-2 1.4-1.4L8.5 9.2 11.6 6.1 13 7.5l-4.5 4z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <span class="pb-badge-text">Attendance System</span>
+          </div>
+          <h2 class="pb-title">Faculty-led tap attendance.<br />Zero manual marking.</h2>
+          <p class="pb-desc">Roll-call wastes 5–7 minutes every class, which is ~10% of every class. Faculty carry the
+            Flex device into class — students tap their ID to mark in. Cuts attendance time by ~50%.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Tap-to-mark on the faculty's portable Flex device
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Real-time dashboards for faculty and admin
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Proxy attendance physically impossible
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Automated shortage alerts to students and parents
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>End-of-term reports in one click
+            </div>
+          </div>
+        </div>
+        <div class="pv-panel">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-1 1H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2h-2a1 1 0 00-1-1H9zm-.5 9.5l-2-2 1.4-1.4L8.5 9.2 11.6 6.1 13 7.5l-4.5 4z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Attendance — Mon 14 Apr</div>
+              <div class="pv-sub">IT-C · Period 3</div>
+            </div>
+            <span class="badge badge-gold" style="margin-left:auto;">Live</span>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Present</span><span class="pv-row-value">54 / 60</span></div>
+          <div class="pv-bar" style="margin-bottom:10px;">
+            <div class="pv-bar-fill" style="width:90%;"></div>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Late arrivals</span><span class="pv-row-value"
+              style="color:var(--gold);">3</span></div>
+          <div class="pv-row"><span class="pv-row-label">Absent</span><span class="pv-row-value"
+              style="color:#E74C3C;">3</span></div>
+          <div class="pv-row"><span class="pv-row-label">Below 75% threshold</span><span class="pv-row-value"
+              style="color:#E74C3C;">7 students</span></div>
+          <div class="pv-row"><span class="pv-row-label">Time saved vs roll-call</span><span class="pv-row-value"
+              style="color:#2ECC71;">~30 min</span></div>
+        </div>
       </div>
-      <div class="footer-col"><div class="footer-col-title">Products</div><a href="#bus">Bus Management</a><a href="#gate">Gate Entry</a><a href="#attendance">Attendance</a><a href="#mess">Mess Management</a><a href="#hostel">Hostel</a><a href="#payments">Payments</a></div>
-      <div class="footer-col"><div class="footer-col-title">Solutions</div><a href="solutions.html">Overview</a><a href="solutions.html#security">Campus Security</a><a href="solutions.html#operations">Operations</a></div>
-      <div class="footer-col"><div class="footer-col-title">Company</div><a href="about.html">About Flex</a><a href="about.html#team">Team</a><a href="about.html#contact">Contact</a></div>
     </div>
-    <div class="footer-bottom"><span>© 2025 Flex. All rights reserved.</span><span>Smart Campus Platform</span></div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- MESS + HOSTEL -->
+  <section class="section s-base" id="mess">
+    <div class="section-inner">
+      <span class="eyebrow">Mess &amp; Hostel</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">Residential campus life,<br />without the paperwork.</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); margin-top:56px;"
+        id="hostel">
+        <div class="pv-panel" style="border-radius:0; border:none; border-left:2px solid var(--gold);">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M6 2a1 1 0 112 0v4h1V2a1 1 0 112 0v4h1V2a1 1 0 112 0v6a3 3 0 01-2 2.83V18a1 1 0 11-2 0v-7.17A3 3 0 016 8V2zm10 0a1 1 0 011 1v15a1 1 0 11-2 0v-6c-1 0-2-1-2-3 0-3 1-7 3-7z" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Mess Management</div>
+              <div class="pv-sub">Dinner · Today</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:20px;">Track meals served,
+            reduce waste, and prevent unauthorized access via RFID tap-in at the mess entrance.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Per-meal consumption tracking
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Food waste analytics and forecasting
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Meal plan management and billing
+            </div>
+          </div>
+          <div class="pv-row" style="margin-top:16px;"><span class="pv-row-label">Served tonight</span><span
+              class="pv-row-value">832 / 940</span></div>
+        </div>
+        <div class="pv-panel" style="border-radius:0; border:none; border-left:2px solid var(--gold);">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3 3v15h6v-4h2v4h6V3H3zm3 3h2v2H6V6zm4 0h2v2h-2V6zm4 0h2v2h-2V6zM6 10h2v2H6v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Hostel Management</div>
+              <div class="pv-sub">Block A &amp; B</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:20px;">RFID hostel access,
+            automated check-in/out, and inventory management for hostel administrators.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>RFID authorization and access control
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Automated late-night curfew alerts
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Room assignment and inventory tracking
+            </div>
+          </div>
+          <div class="pv-row" style="margin-top:16px;"><span class="pv-row-label">Checked in tonight</span><span
+              class="pv-row-value">218 / 240</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- LIBRARY -->
+  <section class="section s-void" id="library">
+    <div class="section-inner">
+      <div class="product-block reveal">
+        <div>
+          <div class="pb-badge">
+            <div class="pb-badge-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M3 3h2v14H3V3zm3 0h2v14H6V3zm3 0h3v14H9V3zm5.31.4l1.93.55a1 1 0 01.69 1.23l-3.79 13.49a1 1 0 01-1.23.69l-1.93-.55a1 1 0 01-.69-1.23L13.08 4.09a1 1 0 011.23-.69z" />
+              </svg></div>
+            <span class="pb-badge-text">Library Management System</span>
+          </div>
+          <h2 class="pb-title">Tap to borrow.<br />Tap to return.</h2>
+          <p class="pb-desc">Manual ledgers and barcode scans slow down circulation and lose books. Flex tags every book
+            and member with RFID — issue, return, and inventory in seconds.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>RFID-tagged books — issue and return with one tap
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Member access verified at the library entrance
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Automatic due-date and overdue fine alerts
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Live shelf inventory and missing-book reports
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Member borrowing history and analytics
+            </div>
+          </div>
+        </div>
+        <div class="pv-panel">
+          <div class="pv-header">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M3 3h2v14H3V3zm3 0h2v14H6V3zm3 0h3v14H9V3zm5.31.4l1.93.55a1 1 0 01.69 1.23l-3.79 13.49a1 1 0 01-1.23.69l-1.93-.55a1 1 0 01-.69-1.23L13.08 4.09a1 1 0 011.23-.69z" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Library — Today</div>
+              <div class="pv-sub">Main circulation desk</div>
+            </div>
+            <span class="badge badge-green" style="margin-left:auto;"><span class="sdot"></span>Live</span>
+          </div>
+          <div class="pv-row"><span class="pv-row-label">Books issued</span><span class="pv-row-value">87</span></div>
+          <div class="pv-row"><span class="pv-row-label">Books returned</span><span class="pv-row-value">63</span></div>
+          <div class="pv-row"><span class="pv-row-label">Members in library now</span><span
+              class="pv-row-value">142</span></div>
+          <div class="pv-row"><span class="pv-row-label">Overdue (auto-alerted)</span><span class="pv-row-value"
+              style="color:var(--gold);">21</span></div>
+          <div class="pv-row"><span class="pv-row-label">Missing on shelf</span><span class="pv-row-value"
+              style="color:#E74C3C;">2</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- PAYMENTS + GYM + EVENTS -->
+  <section class="section s-base" id="payments">
+    <div class="section-inner">
+      <span class="eyebrow">Payments · Gym · Events</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">The cashless,<br />paperless campus.</h2>
+      <div
+        style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); margin-top:56px;"
+        id="gym">
+        <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);">
+          <div class="pv-header" style="margin-bottom:14px;">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                <path fill-rule="evenodd"
+                  d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Payments</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">Cashless campus
+            transactions — canteen, stationery, events — with a single RFID tap.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Fast, secure cashless transactions
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Wallet top-up and spend history
+            </div>
+          </div>
+        </div>
+        <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);">
+          <div class="pv-header" style="margin-bottom:14px;">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Gym Management</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">Member check-in via
+            RFID. Equipment usage tracking. Capacity management and instant alerts.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>RFID check-in — no manual registers
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Usage analytics per equipment
+            </div>
+          </div>
+        </div>
+        <div class="pv-panel" style="border-radius:0; border:none; border-top:2px solid var(--gold);" id="events">
+          <div class="pv-header" style="margin-bottom:14px;">
+            <div class="pv-header-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="pv-title">Club Events</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--silver-dim); line-height:1.65; margin-bottom:16px;">RFID event check-in
+            — no paper tickets. Automated registration, attendee tracking, multi-event management.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Tap-in replaces all paper tickets
+            </div>
+            <div class="feature-item">
+              <div class="fcheck"><svg viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></div>Real-time attendee count and reports
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE -->
+  <section class="section s-void" id="hardware">
+    <div class="section-inner">
+      <span class="eyebrow">Hardware</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">The readers behind<br />every tap.</h2>
+      <p class="section-sub">Purpose-built RFID hardware ships with each software module. Plug-and-play installation,
+        built for campus scale.</p>
+      <div class="hw-grid reveal">
+        <div class="hw-card">
+          <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2H3V4zm0 4h14v8a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm5 3a1 1 0 000 2h4a1 1 0 000-2H8z" />
+            </svg></div>
+          <div class="hw-name">RFID Student ID Card</div>
+          <div class="hw-desc">Standard PVC card with embedded passive RFID chip. Unique cryptographic ID, impossible to
+            clone. Drop-in for existing student IDs.</div>
+          <div class="hw-specs"><span class="hw-spec">ISO 14443</span><span class="hw-spec">13.56 MHz</span><span
+              class="hw-spec">Passive NFC</span></div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                clip-rule="evenodd" />
+            </svg></div>
+          <div class="hw-name">Desktop RFID Reader</div>
+          <div class="hw-desc">Compact unit for classrooms, reception, and office check-in. USB-powered, instant
+            response, connects directly to the Flex platform.</div>
+          <div class="hw-specs"><span class="hw-spec">USB powered</span><span class="hw-spec">&lt;100ms read</span><span
+              class="hw-spec">Plug and play</span></div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z"
+                clip-rule="evenodd" />
+            </svg></div>
+          <div class="hw-name">Gate RFID Terminal</div>
+          <div class="hw-desc">Ruggedized terminal for campus gates and entrances. Built for high-traffic deployment with
+            turnstile or barrier integration.</div>
+          <div class="hw-specs"><span class="hw-spec">High-traffic build</span><span class="hw-spec">Barrier
+              integration</span><span class="hw-spec">Sheltered install</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <h2>Ready to deploy Flex?</h2>
+    <p>Talk to us about which modules fit your institution. We handle installation, onboarding, and training.</p>
+    <a href="about.html#contact" class="btn-dark">Contact us</a>
   </div>
-</footer>
 
-<script>
-// Scroll reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">Flex<span>.</span></div>
+          <div class="footer-tagline">Don't Carry. Just Flex.</div>
+          <div class="footer-desc">Smart campus solutions powered by RFID — hardware and software for modern educational
+            institutions.</div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Products</div><a href="#bus">Bus Management</a><a href="#gate">Gate Entry</a><a
+            href="#attendance">Attendance</a><a href="#mess">Mess Management</a><a href="#hostel">Hostel</a><a
+            href="#library">Library</a><a href="#payments">Payments</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Solutions</div><a href="solutions.html">Overview</a><a
+            href="solutions.html#security">Campus Security</a><a href="solutions.html#operations">Operations</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div><a href="about.html">About Flex</a><a
+            href="about.html#team">Team</a><a href="about.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© 2025 Flex. All rights reserved.</span><span>Smart Campus Platform</span></div>
+    </div>
+  </footer>
 
-// Product nav active
-const sections = document.querySelectorAll('section[id]');
-const links = document.querySelectorAll('.pnav-link');
-window.addEventListener('scroll', () => {
-  let cur = '';
-  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) cur = s.id; });
-  links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
-});
+  <script>
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// Stagger product panels
-document.querySelectorAll('.hw-card').forEach((el, i) => { el.style.transitionDelay = `${i * 0.08}s`; });
-</script>
+    // Product nav active
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.pnav-link');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) cur = s.id; });
+      links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+    });
+
+    // Stagger product panels
+    document.querySelectorAll('.hw-card').forEach((el, i) => { el.style.transitionDelay = `${i * 0.08}s`; });
+  </script>
 </body>
+
 </html>

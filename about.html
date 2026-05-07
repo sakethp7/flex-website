@@ -1,376 +1,913 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>About — Flex</title>
-<link rel="stylesheet" href="dark-theme.css"/>
-<script src="assets/theme.js"></script>
-<style>
-/* HERO */
-.page-hero {
-  padding: 120px 48px 40px; background: var(--bg-void);
-  position: relative; overflow: hidden;
-}
-.page-hero-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%); }
-.page-hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; z-index: 1; }
-.hero-title { font-family: var(--font-display); font-size: clamp(40px,5.5vw,70px); font-weight: 900; letter-spacing: -2.5px; line-height: 1.07; color: var(--white); margin-bottom: 22px; }
-.hero-title .gold { color: var(--gold); }
-.hero-sub { font-size: 16px; color: var(--silver-dim); line-height: 1.75; }
-.origin-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 2px; padding: 36px; border-left: 2px solid var(--gold);
-}
-.origin-quote { font-size: 16px; line-height: 1.75; color: var(--silver); font-style: italic; margin-bottom: 20px; padding-left: 16px; border-left: 2px solid rgba(212,168,67,0.3); }
-.origin-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--silver-dim); }
-.origin-meta span { color: var(--gold); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Flex</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="dark-theme.css" />
+  <script src="assets/theme.js"></script>
+  <style>
+    /* HERO */
+    .page-hero {
+      padding: 120px 48px 40px;
+      background: var(--bg-void);
+      position: relative;
+      overflow: hidden;
+    }
 
-/* SECTIONS */
-.s-void { background: var(--bg-void); }
-.s-base { background: var(--bg-base); }
-.s-raised { background: var(--bg-raised); }
+    .page-hero-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+    }
 
-/* MISSION */
-.mission-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); margin-top: 64px; }
-.mc {
-  background: var(--bg-card); padding: 40px 32px;
-  transition: background 200ms var(--ease); position: relative; overflow: hidden;
-}
-.mc::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--gold); transition: height 400ms var(--ease); }
-.mc:hover { background: var(--bg-elevated); }
-.mc:hover::before { height: 100%; }
-.mc-icon { width: 48px; height: 48px; border-radius: 2px; border: 1px solid var(--border-gold); background: rgba(212,168,67,0.07); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
-.mc-icon svg { width: 22px; height: 22px; color: var(--gold); }
-.mc-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
-.mc-desc { font-size: 14px; color: var(--silver-dim); line-height: 1.7; }
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
 
-/* STORY */
-.story-body { max-width: 740px; margin-top: 48px; display: flex; flex-direction: column; gap: 22px; }
-.story-para { font-size: 16px; line-height: 1.85; color: var(--silver-dim); }
-.story-para strong { color: var(--white); font-weight: 600; }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.5vw, 70px);
+      font-weight: 900;
+      letter-spacing: -2.5px;
+      line-height: 1.07;
+      color: var(--white);
+      margin-bottom: 22px;
+    }
 
-/* TEAM */
-.team-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--border); margin-top: 64px; max-width: 720px; }
-.team-card {
-  background: var(--bg-card); padding: 40px 36px;
-  transition: background 200ms var(--ease); position: relative; overflow: hidden;
-}
-.team-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 400ms var(--ease); }
-.team-card:hover { background: var(--bg-elevated); }
-.team-card:hover::after { transform: scaleX(1); }
-.team-avatar {
-  width: 56px; height: 56px; border-radius: 2px;
-  background: var(--gold); display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-size: 20px; font-weight: 900; color: var(--bg-void);
-  margin-bottom: 20px;
-}
-.team-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--white); margin-bottom: 4px; }
-.team-role { font-size: 13px; color: var(--silver-dim); margin-bottom: 12px; }
-.team-dept { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); padding: 3px 8px; border: 1px solid var(--border-gold); display: inline-block; margin-bottom: 16px; }
-.team-bio { font-size: 13px; color: var(--silver-dim); line-height: 1.65; }
+    .hero-title .gold {
+      color: var(--gold);
+    }
 
-/* VALUES */
-.values-section { background: var(--bg-void); padding: 88px 48px; }
-.values-inner { max-width: 1200px; margin: 0 auto; }
-.values-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-top: 64px; }
-.vc {
-  background: var(--bg-card); padding: 36px 28px;
-  transition: background 200ms var(--ease);
-}
-.vc:hover { background: var(--bg-elevated); }
-.vc-num { font-family: var(--font-display); font-size: 48px; font-weight: 900; color: var(--gold-dim); letter-spacing: -2px; line-height: 1; margin-bottom: 16px; transition: color 200ms; }
-.vc:hover .vc-num { color: var(--gold); }
-.vc-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
-.vc-desc { font-size: 13px; color: var(--silver-dim); line-height: 1.65; }
+    .hero-sub {
+      font-size: 16px;
+      color: var(--silver-dim);
+      line-height: 1.75;
+    }
 
-/* CONTACT */
-.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 64px; align-items: start; }
-.contact-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 44px; border-top: 2px solid var(--gold); }
-.cf-title { font-family: var(--font-display); font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: var(--white); margin-bottom: 6px; }
-.cf-sub { font-size: 13px; color: var(--silver-dim); margin-bottom: 32px; }
-.f-group { margin-bottom: 20px; }
-.f-label { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 8px; }
-.f-input {
-  width: 100%; padding: 13px 16px;
-  background: var(--bg-elevated); border: 1px solid var(--border);
-  color: var(--white); font-family: var(--font-body); font-size: 14px;
-  border-radius: 2px; outline: none;
-  transition: border-color 200ms var(--ease);
-}
-.f-input:focus { border-color: var(--gold); }
-.f-input::placeholder { color: var(--muted); }
-select.f-input { cursor: pointer; appearance: none; }
-select.f-input option { background: var(--bg-raised); }
-textarea.f-input { min-height: 90px; resize: vertical; }
-.btn-submit {
-  width: 100%; padding: 14px; background: var(--gold); color: var(--bg-void);
-  border: none; border-radius: 2px; font-size: 14px; font-weight: 700;
-  font-family: var(--font-body); cursor: pointer; letter-spacing: 0.03em;
-  transition: all 200ms var(--ease);
-}
-.btn-submit:hover { background: var(--gold-bright); transform: translateY(-1px); }
+    .origin-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 36px;
+      border-left: 2px solid var(--gold);
+    }
 
-/* Contact info */
-.contact-info { display: flex; flex-direction: column; gap: 20px; }
-.ci-head { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
-.ci-sub { font-size: 14px; color: var(--silver-dim); line-height: 1.7; }
-.ci-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 20px 24px;
-  display: flex; align-items: flex-start; gap: 14px;
-  transition: border-color 200ms var(--ease);
-}
-.ci-card:hover { border-color: var(--border-gold); }
-.ci-icon { width: 36px; height: 36px; border-radius: 2px; border: 1px solid var(--border-gold); background: rgba(212,168,67,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.ci-icon svg { width: 16px; height: 16px; color: var(--gold); }
-.ci-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 3px; }
-.ci-value { font-size: 14px; font-weight: 600; color: var(--white); }
-.no-commit-card {
-  background: rgba(212,168,67,0.07); border: 1px solid var(--border-gold);
-  border-radius: 2px; padding: 24px;
-}
-.no-commit-title { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
-.no-commit-desc { font-size: 13px; color: var(--silver-dim); line-height: 1.65; }
+    .origin-quote {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--silver);
+      font-style: italic;
+      margin-bottom: 20px;
+      padding-left: 16px;
+      border-left: 2px solid rgba(212, 168, 67, 0.3);
+    }
 
-/* Toast */
-.toast {
-  position: fixed; bottom: 28px; right: 28px; z-index: 999;
-  background: var(--gold); color: var(--bg-void);
-  padding: 14px 24px; border-radius: 2px;
-  font-size: 14px; font-weight: 700;
-  transform: translateY(80px); opacity: 0;
-  transition: all 350ms var(--ease);
-  pointer-events: none;
-}
-.toast.show { transform: translateY(0); opacity: 1; }
+    .origin-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--silver-dim);
+    }
 
-@media (max-width: 900px) {
-  .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
-  .mission-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr; max-width: 100%; }
-  .values-grid { grid-template-columns: 1fr 1fr; }
-  .contact-layout { grid-template-columns: 1fr; }
-  .page-hero { padding: 120px 24px 72px; }
-  .values-section { padding: 72px 24px; }
-}
-@media (max-width: 560px) {
-  .values-grid { grid-template-columns: 1fr 1fr; }
-  .page-hero { padding: 100px 20px 64px; }
-  .values-section { padding: 64px 20px; }
-}
-</style>
+    .origin-meta span {
+      color: var(--gold);
+    }
+
+    /* SECTIONS */
+    .s-void {
+      background: var(--bg-void);
+    }
+
+    .s-base {
+      background: var(--bg-base);
+    }
+
+    .s-raised {
+      background: var(--bg-raised);
+    }
+
+    /* MISSION */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 64px;
+    }
+
+    .mc {
+      background: var(--bg-card);
+      padding: 40px 32px;
+      transition: background 200ms var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mc::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 0;
+      background: var(--gold);
+      transition: height 400ms var(--ease);
+    }
+
+    .mc:hover {
+      background: var(--bg-elevated);
+    }
+
+    .mc:hover::before {
+      height: 100%;
+    }
+
+    .mc-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 2px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 168, 67, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .mc-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--gold);
+    }
+
+    .mc-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .mc-desc {
+      font-size: 14px;
+      color: var(--silver-dim);
+      line-height: 1.7;
+    }
+
+    /* STORY */
+    .story-body {
+      max-width: 740px;
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .story-para {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--silver-dim);
+    }
+
+    .story-para strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 64px;
+      max-width: 720px;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      padding: 40px 36px;
+      transition: background 200ms var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 400ms var(--ease);
+    }
+
+    .team-card:hover {
+      background: var(--bg-elevated);
+    }
+
+    .team-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .team-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 2px;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--bg-void);
+      margin-bottom: 20px;
+    }
+
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 13px;
+      color: var(--silver-dim);
+      margin-bottom: 12px;
+    }
+
+    .team-dept {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 3px 8px;
+      border: 1px solid var(--border-gold);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .team-bio {
+      font-size: 13px;
+      color: var(--silver-dim);
+      line-height: 1.65;
+    }
+
+    /* VALUES */
+    .values-section {
+      background: var(--bg-void);
+      padding: 88px 48px;
+    }
+
+    .values-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 64px;
+    }
+
+    .vc {
+      background: var(--bg-card);
+      padding: 36px 28px;
+      transition: background 200ms var(--ease);
+    }
+
+    .vc:hover {
+      background: var(--bg-elevated);
+    }
+
+    .vc-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--gold-dim);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 16px;
+      transition: color 200ms;
+    }
+
+    .vc:hover .vc-num {
+      color: var(--gold);
+    }
+
+    .vc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .vc-desc {
+      font-size: 13px;
+      color: var(--silver-dim);
+      line-height: 1.65;
+    }
+
+    /* CONTACT */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      margin-top: 64px;
+      align-items: start;
+    }
+
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 44px;
+      border-top: 2px solid var(--gold);
+    }
+
+    .cf-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .cf-sub {
+      font-size: 13px;
+      color: var(--silver-dim);
+      margin-bottom: 32px;
+    }
+
+    .f-group {
+      margin-bottom: 20px;
+    }
+
+    .f-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      margin-bottom: 8px;
+    }
+
+    .f-input {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 200ms var(--ease);
+    }
+
+    .f-input:focus {
+      border-color: var(--gold);
+    }
+
+    .f-input::placeholder {
+      color: var(--muted);
+    }
+
+    select.f-input {
+      cursor: pointer;
+      appearance: none;
+    }
+
+    select.f-input option {
+      background: var(--bg-raised);
+    }
+
+    textarea.f-input {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--bg-void);
+      border: none;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-body);
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 200ms var(--ease);
+    }
+
+    .btn-submit:hover {
+      background: var(--gold-bright);
+      transform: translateY(-1px);
+    }
+
+    /* Contact info */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .ci-head {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .ci-sub {
+      font-size: 14px;
+      color: var(--silver-dim);
+      line-height: 1.7;
+    }
+
+    .ci-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 200ms var(--ease);
+    }
+
+    .ci-card:hover {
+      border-color: var(--border-gold);
+    }
+
+    .ci-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 2px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 168, 67, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ci-icon svg {
+      width: 16px;
+      height: 16px;
+      color: var(--gold);
+    }
+
+    .ci-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      margin-bottom: 3px;
+    }
+
+    .ci-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .no-commit-card {
+      background: rgba(212, 168, 67, 0.07);
+      border: 1px solid var(--border-gold);
+      border-radius: 2px;
+      padding: 24px;
+    }
+
+    .no-commit-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .no-commit-desc {
+      font-size: 13px;
+      color: var(--silver-dim);
+      line-height: 1.65;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      background: var(--gold);
+      color: var(--bg-void);
+      padding: 14px 24px;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: 700;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 350ms var(--ease);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 900px) {
+      .page-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .mission-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding: 120px 24px 72px;
+      }
+
+      .values-section {
+        padding: 72px 24px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .page-hero {
+        padding: 100px 20px 64px;
+      }
+
+      .values-section {
+        padding: 64px 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="nav">
-  <a href="index.html" class="nav-logo">Flex<span class="dot">.</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="products.html">Products</a></li>
-    <li><a href="solutions.html">Solutions</a></li>
-    <li><a href="about.html" class="active">About</a></li>
-  </ul>
-  <div style="display:flex; align-items:center; margin-left:auto;">
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </button>
-    <a href="#contact" class="nav-cta">Get in touch</a>
-  </div>
-</nav>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Flex<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; margin-left:auto;">
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a href="#contact" class="nav-cta">Contact us</a>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<div class="page-hero">
-  <div class="page-hero-grid"></div>
-  <div class="page-hero-inner">
-    <div>
-      <span class="eyebrow">Our story</span>
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-inner">
+      <div>
+        <span class="eyebrow">Our story</span>
+        <span class="gold-line"></span>
+        <h1 class="hero-title">Built by students,<br />for <span class="gold">every campus.</span></h1>
+        <p class="hero-sub">Flex started as a final-year engineering project — born out of frustration with the same
+          problems every Indian campus faces. Forged IDs. Manual roll-call. Cash-only canteens. We built the solution we
+          wished existed.</p>
+      </div>
+      <div class="origin-card reveal">
+        <div class="origin-quote">"As student intake in our college continued to increase, there was a pressing need for
+          a comprehensive monitoring system. The proliferation of counterfeit ID cards demanded urgent intervention. So
+          we built one."</div>
+        <div class="origin-meta">P. Ram Saketh &amp; J. Kamal </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section class="section s-base">
+    <div class="section-inner">
+      <span class="eyebrow">Why we exist</span>
       <span class="gold-line"></span>
-      <h1 class="hero-title">Built by students,<br/>for <span class="gold">every campus.</span></h1>
-      <p class="hero-sub">Flex started as a final-year engineering project — born out of frustration with the same problems every Indian campus faces. Forged IDs. Manual roll-call. Cash-only canteens. We built the solution we wished existed.</p>
-    </div>
-    <div class="origin-card reveal">
-      <div class="origin-quote">"As student intake in our college continued to increase, there was a pressing need for a comprehensive monitoring system. The proliferation of counterfeit ID cards demanded urgent intervention. So we built one."</div>
-      <div class="origin-meta">P. Ram Saketh &amp; J. Kamal · <span>Final Year IT-C</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- MISSION -->
-<section class="section s-base">
-  <div class="section-inner">
-    <span class="eyebrow">Why we exist</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">Our mission.</h2>
-    <div class="mission-grid reveal">
-      <div class="mc">
-        <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>
-        <div class="mc-title">Eliminate fraud at the source</div>
-        <div class="mc-desc">Physical ID fraud is a solved problem — cryptographic RFID makes counterfeiting physically impossible. Every campus deserves that baseline of security.</div>
-      </div>
-      <div class="mc">
-        <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg></div>
-        <div class="mc-title">Give time back to educators</div>
-        <div class="mc-desc">Every minute spent on roll-call, manual checks, or paperwork is a minute not spent teaching. Automation should serve education — not the other way around.</div>
-      </div>
-      <div class="mc">
-        <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg></div>
-        <div class="mc-title">Give admins real data</div>
-        <div class="mc-desc">Campus decisions should be driven by live data — not end-of-day tallies, not gut feeling. Flex brings real-time visibility to every aspect of campus operations.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STORY -->
-<section class="section s-void">
-  <div class="section-inner">
-    <span class="eyebrow">The full story</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">How Flex started.</h2>
-    <div class="story-body reveal">
-      <p class="story-para"><strong>Flex started as a final-year B.Tech project</strong> in the IT department — a direct response to the problems we saw every single day on our own campus. Bus conductors struggling with a stack of paper passes. Security guards waving students through without checking IDs properly. Faculty calling roll for ten minutes before every lecture could begin.</p>
-      <p class="story-para">The problem wasn't a lack of effort. It was a lack of the right tools. <strong>Manual systems simply can't scale</strong> with a growing student body — and they certainly can't prevent the fraud that comes with it. We saw students board buses with obviously forged passes. We saw physical ID cards copied. We knew there was a better way.</p>
-      <p class="story-para">The insight was simple: <strong>every student already carries an ID card.</strong> What if that card did everything? A passive RFID chip embedded in a standard PVC card costs almost nothing. A reader at a gate or classroom door costs less than a month's salary for the guard it replaces. The infrastructure cost is low. The impact is immediate.</p>
-      <p class="story-para">We built the first version for our own college. Then we started talking to other institutions. <strong>Every campus had the same problems.</strong> Every administrator wanted the same things: less fraud, less manual work, more visibility. Flex is our answer — built from the ground up for Indian educational institutions, by people who understand them from the inside.</p>
-    </div>
-  </div>
-</section>
-
-<!-- TEAM -->
-<section class="section s-raised" id="team">
-  <div class="section-inner">
-    <span class="eyebrow">The team</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">The people<br/>behind Flex.</h2>
-    <p class="section-sub">Engineers who got tired of watching good campuses run on broken systems.</p>
-    <div class="team-grid reveal">
-      <div class="team-card">
-        <div class="team-avatar">RS</div>
-        <div class="team-name">P. Ram Saketh</div>
-        <div class="team-role">Co-founder &amp; Lead Engineer</div>
-        <span class="team-dept">Hardware systems</span>
-        <div class="team-bio">Final year IT-C. Designed the RFID hardware architecture and reader integration protocol that powers every Flex module.</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">JK</div>
-        <div class="team-name">J. Kamal</div>
-        <div class="team-role">Co-founder &amp; Platform Lead</div>
-        <span class="team-dept">Software &amp; platform</span>
-        <div class="team-bio">Final year IT-C. Built the Flex admin dashboard, data pipeline, and real-time analytics platform from the ground up.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VALUES -->
-<section class="values-section">
-  <div class="values-inner">
-    <span class="eyebrow">What we stand for</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">Four things we<br/>never compromise on.</h2>
-    <div class="values-grid reveal">
-      <div class="vc"><div class="vc-num">01</div><div class="vc-name">Security first</div><div class="vc-desc">Every design decision starts with: does this make the campus safer? If not, we don't build it.</div></div>
-      <div class="vc"><div class="vc-num">02</div><div class="vc-name">Simplicity in complexity</div><div class="vc-desc">Campus operations are complex. Our software shouldn't be. Every feature ships only when it's obvious to use.</div></div>
-      <div class="vc"><div class="vc-num">03</div><div class="vc-name">Real-time by default</div><div class="vc-desc">Data that arrives tomorrow is just history. Flex shows administrators what is happening right now — no exceptions.</div></div>
-      <div class="vc"><div class="vc-num">04</div><div class="vc-name">Built to last</div><div class="vc-desc">Campus infrastructure has a 10-year horizon. We build hardware that survives years of daily use and software that scales.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="section s-base" id="contact">
-  <div class="section-inner">
-    <span class="eyebrow">Get in touch</span>
-    <span class="gold-line"></span>
-    <h2 class="section-title">Bring Flex to<br/>your campus.</h2>
-    <p class="section-sub">Whether you want to deploy one module or the full suite, we'd love to talk.</p>
-    <div class="contact-layout">
-      <div class="contact-form reveal">
-        <div class="cf-title">Send us a message</div>
-        <div class="cf-sub">We'll get back to you within 48 hours.</div>
-        <div class="f-group"><label class="f-label" for="fname">Your name</label><input class="f-input" id="fname" type="text" placeholder="Dr. Ramesh Kumar"/></div>
-        <div class="f-group"><label class="f-label" for="femail">Email address</label><input class="f-input" id="femail" type="email" placeholder="principal@college.edu.in"/></div>
-        <div class="f-group"><label class="f-label" for="finst">Institution name</label><input class="f-input" id="finst" type="text" placeholder="Your college or university"/></div>
-        <div class="f-group">
-          <label class="f-label" for="fmod">Module interest</label>
-          <select class="f-input" id="fmod">
-            <option value="">Select a module...</option>
-            <option>Bus Management</option>
-            <option>Campus Gate Entry</option>
-            <option>Attendance System</option>
-            <option>Mess Management</option>
-            <option>Hostel Management</option>
-            <option>Payments System</option>
-            <option>Full platform (all modules)</option>
-          </select>
+      <h2 class="section-title">Our mission.</h2>
+      <div class="mission-grid reveal">
+        <div class="mc">
+          <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd" />
+            </svg></div>
+          <div class="mc-title">Eliminate fraud at the source</div>
+          <div class="mc-desc">Physical ID fraud is a solved problem — cryptographic RFID makes counterfeiting
+            physically impossible. Every campus deserves that baseline of security.</div>
         </div>
-        <div class="f-group"><label class="f-label" for="fmsg">Tell us about your campus</label><textarea class="f-input" id="fmsg" placeholder="Student count, current pain points, any specific requirements..."></textarea></div>
-        <button class="btn-submit" id="submit-btn">Send message</button>
+        <div class="mc">
+          <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                clip-rule="evenodd" />
+            </svg></div>
+          <div class="mc-title">Give time back to educators</div>
+          <div class="mc-desc">Every minute spent on roll-call, manual checks, or paperwork is a minute not spent
+            teaching. Automation should serve education — not the other way around.</div>
+        </div>
+        <div class="mc">
+          <div class="mc-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+            </svg></div>
+          <div class="mc-title">Give admins real data</div>
+          <div class="mc-desc">Campus decisions should be driven by live data — not end-of-day tallies, not gut feeling.
+            Flex brings real-time visibility to every aspect of campus operations.</div>
+        </div>
       </div>
-      <div class="contact-info reveal reveal-delay-2">
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section s-void">
+    <div class="section-inner">
+      <span class="eyebrow">The full story</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">How Flex started.</h2>
+      <div class="story-body reveal">
+        <p class="story-para"><strong>Flex started as a final-year B.Tech project</strong> in the IT department — a
+          direct response to the problems we saw every single day on our own campus. Bus conductors struggling with a
+          stack of paper passes. Security guards waving students through without checking IDs properly. Faculty calling
+          roll for five minutes before every lecture could begin.</p>
+        <p class="story-para">The problem wasn't a lack of effort. It was a lack of the right tools. <strong>Manual
+            systems simply can't scale</strong> with a growing student body — and they certainly can't prevent the fraud
+          that comes with it. We saw students board buses with obviously forged passes. We saw physical ID cards copied.
+          We knew there was a better way.</p>
+        <p class="story-para">The insight was simple: <strong>every student already carries an ID card.</strong> What if
+          that card did everything? A passive RFID chip embedded in a standard PVC card costs almost nothing. A reader
+          at a gate or classroom door costs less than a month's salary for the guard it replaces. The infrastructure
+          cost is low. The impact is immediate.</p>
+        <p class="story-para">We built the first version for our own college. Then we started talking to other
+          institutions. <strong>Every campus had the same problems.</strong> Every administrator wanted the same things:
+          less fraud, less manual work, more visibility. Flex is our answer — built from the ground up for Indian
+          educational institutions, by people who understand them from the inside.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section s-raised" id="team">
+    <div class="section-inner">
+      <span class="eyebrow">The team</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">The people<br />behind Flex.</h2>
+      <p class="section-sub">Engineers who got tired of watching good campuses run on broken systems.</p>
+      <div class="team-grid reveal">
+        <div class="team-card">
+          <div class="team-avatar">RS</div>
+          <div class="team-name">P. Ram Saketh</div>
+          <div class="team-role">Co-founder &amp; Lead Engineer</div>
+          <span class="team-dept">Software &amp; platform</span>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">JK</div>
+          <div class="team-name">J. Kamal</div>
+          <div class="team-role">Co-founder &amp; Platform Lead</div>
+          <span class="team-dept">Hardware systems</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values-section">
+    <div class="values-inner">
+      <span class="eyebrow">What we stand for</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">Four things we<br />never compromise on.</h2>
+      <div class="values-grid reveal">
+        <div class="vc">
+          <div class="vc-num">01</div>
+          <div class="vc-name">Security first</div>
+          <div class="vc-desc">Every design decision starts with: does this make the campus safer? If not, we don't
+            build it.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-num">02</div>
+          <div class="vc-name">Simplicity in complexity</div>
+          <div class="vc-desc">Campus operations are complex. Our software shouldn't be. Every feature ships only when
+            it's obvious to use.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-num">03</div>
+          <div class="vc-name">Real-time by default</div>
+          <div class="vc-desc">Data that arrives tomorrow is just history. Flex shows administrators what is happening
+            right now — no exceptions.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-num">04</div>
+          <div class="vc-name">Built to last</div>
+          <div class="vc-desc">Campus infrastructure has a 10-year horizon. We build hardware that survives years of
+            daily use and software that scales.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section s-base" id="contact">
+    <div class="section-inner">
+      <span class="eyebrow">Contact us</span>
+      <span class="gold-line"></span>
+      <h2 class="section-title">Bring Flex to<br />your campus.</h2>
+      <p class="section-sub">Whether you want to deploy one module or the full suite, we'd love to talk.</p>
+      <div class="contact-layout">
+        <div class="contact-form reveal">
+          <div class="cf-title">Send us a message</div>
+          <div class="cf-sub">We'll get back to you within 48 hours.</div>
+          <div class="f-group"><label class="f-label" for="fname">Your name</label><input class="f-input" id="fname"
+              type="text" placeholder="Dr. Ramesh Kumar" /></div>
+          <div class="f-group"><label class="f-label" for="femail">Email address</label><input class="f-input"
+              id="femail" type="email" placeholder="principal@college.edu.in" /></div>
+          <div class="f-group"><label class="f-label" for="finst">Institution name</label><input class="f-input"
+              id="finst" type="text" placeholder="Your college or university" /></div>
+          <div class="f-group">
+            <label class="f-label" for="fmod">Module interest</label>
+            <select class="f-input" id="fmod">
+              <option value="">Select a module...</option>
+              <option>Bus Management</option>
+              <option>Campus Gate Entry</option>
+              <option>Attendance System</option>
+              <option>Mess Management</option>
+              <option>Hostel Management</option>
+              <option>Library Management</option>
+              <option>Payments System</option>
+              <option>Full platform (all modules)</option>
+            </select>
+          </div>
+          <div class="f-group"><label class="f-label" for="fmsg">Tell us about your campus</label><textarea
+              class="f-input" id="fmsg"
+              placeholder="Student count, current pain points, any specific requirements..."></textarea></div>
+          <button class="btn-submit" id="submit-btn">Send message</button>
+        </div>
+        <div class="contact-info reveal reveal-delay-2">
+          <div>
+            <div class="ci-head">Why talk to us?</div>
+            <div class="ci-sub">We don't do sales calls. We do campus walkthroughs — tell us your biggest operational
+              headache and we'll show you exactly how Flex solves it.</div>
+          </div>
+          <div class="ci-card">
+            <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg></div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-value">hello@flexcampus.in</div>
+            </div>
+          </div>
+          <div class="ci-card">
+            <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+              </svg></div>
+            <div>
+              <div class="ci-label">Phone</div>
+              <div class="ci-value">+91 98765 43210</div>
+            </div>
+          </div>
+          <div class="ci-card">
+            <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clip-rule="evenodd" />
+              </svg></div>
+            <div>
+              <div class="ci-label">Based in</div>
+              <div class="ci-value">Tamil Nadu, India</div>
+            </div>
+          </div>
+          <div class="no-commit-card">
+            <div class="no-commit-title">Not ready to commit?</div>
+            <div class="no-commit-desc">We offer a no-obligation campus assessment — we'll walk your site and show you
+              exactly what a Flex deployment would look like, at no cost.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
         <div>
-          <div class="ci-head">Why talk to us?</div>
-          <div class="ci-sub">We don't do sales calls. We do campus walkthroughs — tell us your biggest operational headache and we'll show you exactly how Flex solves it.</div>
+          <div class="footer-logo">Flex<span>.</span></div>
+          <div class="footer-tagline">Don't Carry. Just Flex.</div>
+          <div class="footer-desc">Smart campus solutions powered by RFID — hardware and software for modern educational
+            institutions.</div>
         </div>
-        <div class="ci-card">
-          <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg></div>
-          <div><div class="ci-label">Email</div><div class="ci-value">hello@flexcampus.in</div></div>
+        <div class="footer-col">
+          <div class="footer-col-title">Products</div><a href="products.html#bus">Bus Management</a><a
+            href="products.html#gate">Gate Entry</a><a href="products.html#attendance">Attendance</a><a
+            href="products.html#mess">Mess</a><a href="products.html#hostel">Hostel</a><a
+            href="products.html#library">Library</a><a href="products.html#payments">Payments</a>
         </div>
-        <div class="ci-card">
-          <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg></div>
-          <div><div class="ci-label">Phone</div><div class="ci-value">+91 98765 43210</div></div>
+        <div class="footer-col">
+          <div class="footer-col-title">Solutions</div><a href="solutions.html">Overview</a><a
+            href="solutions.html#security">Campus Security</a><a href="solutions.html#operations">Operations</a>
         </div>
-        <div class="ci-card">
-          <div class="ci-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg></div>
-          <div><div class="ci-label">Based in</div><div class="ci-value">Tamil Nadu, India</div></div>
-        </div>
-        <div class="no-commit-card">
-          <div class="no-commit-title">Not ready to commit?</div>
-          <div class="no-commit-desc">We offer a no-obligation campus assessment — we'll walk your site and show you exactly what a Flex deployment would look like, at no cost.</div>
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div><a href="about.html">About</a><a href="#team">Team</a><a
+            href="#contact">Contact</a>
         </div>
       </div>
+      <div class="footer-bottom"><span>© 2025 Flex. All rights reserved.</span><span>Smart Campus Platform</span></div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div><div class="footer-logo">Flex<span>.</span></div><div class="footer-tagline">Don't Carry. Just Flex.</div><div class="footer-desc">Smart campus solutions powered by RFID — hardware and software for modern educational institutions.</div></div>
-      <div class="footer-col"><div class="footer-col-title">Products</div><a href="products.html#bus">Bus Management</a><a href="products.html#gate">Gate Entry</a><a href="products.html#attendance">Attendance</a><a href="products.html#mess">Mess</a><a href="products.html#payments">Payments</a></div>
-      <div class="footer-col"><div class="footer-col-title">Solutions</div><a href="solutions.html">Overview</a><a href="solutions.html#security">Campus Security</a><a href="solutions.html#operations">Operations</a></div>
-      <div class="footer-col"><div class="footer-col-title">Company</div><a href="about.html">About</a><a href="#team">Team</a><a href="#contact">Contact</a></div>
-    </div>
-    <div class="footer-bottom"><span>© 2025 Flex. All rights reserved.</span><span>Smart Campus Platform</span></div>
-  </div>
-</footer>
+  <div class="toast" id="toast">Message sent — we'll be in touch within 48 hours.</div>
 
-<div class="toast" id="toast">Message sent — we'll be in touch within 48 hours.</div>
+  <script>
+    // Reveal on scroll
+    const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.07 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-<script>
-// Reveal on scroll
-const obs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    // Stagger delays
+    document.querySelectorAll('.mc, .vc, .ci-card').forEach((el, i) => { el.style.transitionDelay = `${i * 0.07}s`; });
 
-// Stagger delays
-document.querySelectorAll('.mc, .vc, .ci-card').forEach((el,i) => { el.style.transitionDelay = `${i*0.07}s`; });
+    // Contact form
+    document.getElementById('submit-btn').addEventListener('click', () => {
+      const name = document.getElementById('fname').value.trim();
+      const email = document.getElementById('femail').value.trim();
+      if (!name || !email) { alert('Please enter your name and email address.'); return; }
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+      ['fname', 'femail', 'finst', 'fmod', 'fmsg'].forEach(id => { document.getElementById(id).value = ''; });
+    });
 
-// Contact form
-document.getElementById('submit-btn').addEventListener('click', () => {
-  const name = document.getElementById('fname').value.trim();
-  const email = document.getElementById('femail').value.trim();
-  if (!name || !email) { alert('Please enter your name and email address.'); return; }
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-  ['fname','femail','finst','fmod','fmsg'].forEach(id => { document.getElementById(id).value = ''; });
-});
-
-// Nav gold border on scroll
-window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.07)';
-});
-</script>
+    // Nav gold border on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.nav').style.borderBottomColor =
+        window.scrollY > 20 ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.07)';
+    });
+  </script>
 </body>
+
 </html>
